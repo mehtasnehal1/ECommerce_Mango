@@ -1,7 +1,0 @@
-wwwroot\ProductImages\2001.jpeg
-wwwroot\ProductImages\2002.jpeg
-wwwroot\ProductImages\2004.jpg
-wwwroot\ProductImages\2004.png
-wwwroot\ProductImages\2005.jpg
-wwwroot\ProductImages\2006.jpg
-wwwroot\ProductImages\2010.jpg

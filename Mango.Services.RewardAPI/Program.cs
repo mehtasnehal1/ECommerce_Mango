@@ -1,3 +1,4 @@
+using Mango.MessageBus;
 using Mango.Services.RewardAPI.Data;
 using Mango.Services.RewardAPI.Extension;
 using Mango.Services.RewardAPI.Messaging;
@@ -18,7 +19,15 @@ var optionBuilder = new DbContextOptionsBuilder<AppDbContext>();
 optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddSingleton(new RewardService(optionBuilder.Options));
 
+// Message Bus config
+var serviceBusConnectionString = builder.Configuration.GetValue<string>("ServiceBusConnectionString");
 
+if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
+{
+    throw new InvalidOperationException("AzureServiceBus:ConnectionString is missing.");
+}
+
+builder.Services.AddSingleton<IMessageBus>(new MessageBus(serviceBusConnectionString));
 builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

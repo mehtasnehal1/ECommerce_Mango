@@ -22,13 +22,23 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 });
 
+// Message Bus config
+var serviceBusConnectionString = builder.Configuration.GetValue<string>("ServiceBusConnectionString");
+
+if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
+{
+    throw new InvalidOperationException("AzureServiceBus:ConnectionString is missing.");
+}
+
+builder.Services.AddSingleton<IMessageBus>(new MessageBus(serviceBusConnectionString));
+
 IMapper mapper =  MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
-builder.Services.AddScoped<IMessageBus, MessageBus>();
+//builder.Services.AddScoped<IMessageBus, MessageBus>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 
@@ -61,6 +71,7 @@ builder.Services.AddSwaggerGen(option =>
     }
 });
 });
+
 
 builder.AddAppAuthentication();
 builder.Services.AddAuthorization();

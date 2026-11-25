@@ -22,12 +22,21 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 });
 
+// Message Bus config
+var serviceBusConnectionString = builder.Configuration.GetValue<string>("ServiceBusConnectionString");
+
+if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
+{
+    throw new InvalidOperationException("AzureServiceBus:ConnectionString is missing.");
+}
+
+builder.Services.AddSingleton<IMessageBus>(new MessageBus(serviceBusConnectionString));
+
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IMessageBus, MessageBus>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 

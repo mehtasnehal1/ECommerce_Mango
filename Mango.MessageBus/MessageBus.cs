@@ -11,7 +11,11 @@ namespace Mango.MessageBus
 {
     public class MessageBus : IMessageBus
     {
-        private string connectionString = "Endpoint=sb://practicemangoweb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=C7U0IpskIF8NKfMSh112ACco1qJNQ3BGc+ASbFB1itY=";
+        private readonly string _connectionString;
+        public MessageBus(string connectionString)
+        {
+            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        }
         public async Task PublishMessage(object message, string topic_queue_Name)
         {
             if (string.IsNullOrWhiteSpace(topic_queue_Name))
@@ -19,8 +23,7 @@ namespace Mango.MessageBus
                 throw new ArgumentException("topic_queue_Name cannot be null or empty. Check configuration key 'TopicandQueueNames:RegisterUserQueue' or the caller argument.", nameof(topic_queue_Name));
             }
 
-
-            await using var client = new ServiceBusClient(connectionString);
+            await using var client = new ServiceBusClient(_connectionString);
             ServiceBusSender sender = client.CreateSender(topic_queue_Name);
 
             var jsonMessage = JsonConvert.SerializeObject(message);

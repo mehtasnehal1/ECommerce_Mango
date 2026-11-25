@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e5ca85cc-3899-4f8c-ab46-7e6c73b9860e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,10 @@
     </PackageReference>
     <PackageReference Include="Stripe.net" Version="52.4.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mango.MessageBus\Mango.MessageBus.csproj" />
   </ItemGroup>
 
 </Project>

@@ -54,6 +54,12 @@ namespace Mango.Web.Controllers
                     CancelUrl = domain + "Cart/Checkout"
                 };
                 var stripeResponse = await _orderService.CreateStripeSession(stripeRequestDto);
+                if (stripeResponse == null || !stripeResponse.IsSuccess || stripeResponse.Result == null)
+                {
+                    TempData["error"] = "Stripe session could not be created.";
+                    return RedirectToAction(nameof(Checkout));
+                }
+
                 StripeRequestDto stripeResponseResult = JsonConvert.DeserializeObject<StripeRequestDto>(Convert.ToString(stripeResponse.Result));
                 Response.Headers.Add("Location", stripeResponseResult.StripeSessionUrl);
                 return new StatusCodeResult(303);

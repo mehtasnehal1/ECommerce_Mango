@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>6fa349d7-123f-4c4f-834e-138ef6d04cf0</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mango.MessageBus\Mango.MessageBus.csproj" />
     <ProjectReference Include="..\Mango.Services.EMailAPI\Mango.Services.EMailAPI.csproj" />
   </ItemGroup>
 

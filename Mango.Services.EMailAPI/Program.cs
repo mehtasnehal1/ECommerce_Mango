@@ -1,3 +1,4 @@
+using Mango.MessageBus;
 using Mango.Services.EMailAPI.Data;
 using Mango.Services.EMailAPI.Extension;
 using Mango.Services.EMailAPI.Messaging;
@@ -19,6 +20,15 @@ var optionBuilder = new DbContextOptionsBuilder<AppDbContext>();
 optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddSingleton(new EmailService(optionBuilder.Options));
 
+// Message Bus config
+var serviceBusConnectionString = builder.Configuration.GetValue<string>("ServiceBusConnectionString");
+
+if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
+{
+    throw new InvalidOperationException("AzureServiceBus:ConnectionString is missing.");
+}
+
+builder.Services.AddSingleton<IMessageBus>(new MessageBus(serviceBusConnectionString));
 
 builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 builder.Services.AddControllers();

@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>eec5721d-fcc7-406b-a332-4d15690e34fe</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +23,10 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mango.MessageBus\Mango.MessageBus.csproj" />
   </ItemGroup>
 
 </Project>
